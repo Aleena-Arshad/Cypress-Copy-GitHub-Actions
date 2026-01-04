@@ -79,6 +79,8 @@
 #           path: |
 #             cypress/screenshots
 #             cypress/videos
+
+
 name: Cypress Tests
 
 on:

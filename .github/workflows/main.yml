@@ -79,7 +79,6 @@
 #           path: |
 #             cypress/screenshots
 #             cypress/videos
-
 name: Cypress Tests
 
 on:
@@ -105,8 +104,12 @@ jobs:
 
       # Run Cypress tests
       - name: Run Cypress Tests
-        run: npx cypress run --browser chrome
-        continue-on-error: true   # <-- workflow will continue even if some tests fail
+        run: |
+          npx cypress run \
+            --browser chrome \
+            --reporter cypress-mochawesome-reporter \
+            --reporter-options reportDir=cypress/reports,json=true,html=true,overwrite=false
+        continue-on-error: true
 
       # Merge only non-empty Mochawesome JSON reports
       - name: Merge Mochawesome JSON Reports

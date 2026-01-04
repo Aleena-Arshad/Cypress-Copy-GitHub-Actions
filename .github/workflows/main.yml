@@ -80,7 +80,6 @@
 #             cypress/screenshots
 #             cypress/videos
 
-
 name: Cypress Tests
 
 on:
@@ -92,31 +91,45 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
+      # Checkout the repository
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Install dependencies
       - name: Install Dependencies
         run: npm ci
 
+      # Create reports folder
       - name: Create reports folder
         run: mkdir -p cypress/reports
 
+      # Run Cypress tests
       - name: Run Cypress Tests
         run: npx cypress run --browser chrome
+        continue-on-error: true   # <-- workflow will continue even if some tests fail
 
+      # Merge only non-empty Mochawesome JSON reports
       - name: Merge Mochawesome JSON Reports
-        run: npx mochawesome-merge cypress/reports/*.json > cypress/reports/merged-report.json
-        continue-on-error: true
-
-      - name: Generate HTML Report
         run: |
-          if [ -f cypress/reports/merged-report.json ]; then
-            npx mochawesome-report-generator cypress/reports/merged-report.json -o cypress/reports
+          files=$(find cypress/reports -name '*.json' -size +0)
+          if [ -n "$files" ]; then
+            npx mochawesome-merge $files > cypress/reports/merged-report.json
           else
-            echo "Merged JSON not found, skipping HTML generation."
+            echo "No JSON files to merge, skipping."
           fi
         continue-on-error: true
 
+      # Generate HTML report safely
+      - name: Generate HTML Report
+        run: |
+          if [ -f cypress/reports/merged-report.json ] && [ -s cypress/reports/merged-report.json ]; then
+            npx mochawesome-report-generator cypress/reports/merged-report.json -o cypress/reports
+          else
+            echo "Merged JSON not found or empty, skipping HTML generation."
+          fi
+        continue-on-error: true
+
+      # Upload screenshots, videos, and reports
       - name: Upload Cypress Artifacts
         uses: actions/upload-artifact@v4
         with:

@@ -7,10 +7,6 @@ on:
 jobs:
   cypress-run:
     runs-on: ubuntu-24.04
-    strategy:
-      fail-fast: false
-      matrix:
-        browser: [chrome]
 
     steps:
       - name: Checkout
@@ -20,22 +16,17 @@ jobs:
         run: npm ci
 
       - name: Run Cypress Tests
-        run: |
-          npx cypress run --browser ${{ matrix.browser }}
+        run: npx cypress run --browser chrome
 
       - name: Merge Mochawesome JSON Reports
         run: |
           npx mochawesome-merge cypress/reports/*.json > cypress/reports/merged-report.json
-        continue-on-error: true
 
       - name: Generate HTML Report
         run: |
-          if [ -f cypress/reports/merged-report.json ]; then
-            npx mochawesome-report-generator cypress/reports/merged-report.json -o cypress/reports
-          else
-            echo "Merged JSON not found, skipping HTML generation."
-          fi
-        continue-on-error: true
+          npx mochawesome-report-generator cypress/reports/merged-report.json \
+          -o cypress/reports \
+          --reportTitle "Cypress Test Report"
 
       - name: Upload Cypress Artifacts
         uses: actions/upload-artifact@v4

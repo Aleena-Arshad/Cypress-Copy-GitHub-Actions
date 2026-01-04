@@ -80,7 +80,6 @@
 #             cypress/screenshots
 #             cypress/videos
 
-
 name: Cypress Tests
 
 on:
@@ -104,14 +103,18 @@ jobs:
       - name: Create reports folder
         run: mkdir -p cypress/reports
 
-      # Run Cypress tests
+      # Run Cypress tests with Mochawesome reporter
       - name: Run Cypress Tests
         run: |
           npx cypress run \
             --browser chrome \
             --reporter cypress-mochawesome-reporter \
-            --reporter-options reportDir=cypress/reports,json=true,html=true,overwrite=false
-        continue-on-error: true
+            --reporter-options reportDir=cypress/reports,json=true,html=false,overwrite=false
+        continue-on-error: true   # continue workflow even if tests fail
+
+      # Debug: list JSON files generated
+      - name: Check JSON Reports
+        run: ls -lh cypress/reports || echo "No reports found"
 
       # Merge only non-empty Mochawesome JSON reports
       - name: Merge Mochawesome JSON Reports

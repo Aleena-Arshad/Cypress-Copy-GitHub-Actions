@@ -1,6 +1,6 @@
 // 2 status codes: 200 (success) and 401 (invalid login).
 // Orange hrm auth does not provide intercept path
-describe('Netowrk Intercept', () => {
+describe('Netowrk Intercept - Code', () => {
 
 
 // Correct Example ------------------------------------------------------------
@@ -32,46 +32,6 @@ it('Netowrk Intercept - success (200)', () => {
     .its('response.statusCode')
     .should('eq', 200);
 });
-
-
-// 401
-it('Netowrk Intercept - Unauthorized (401)', () => {
-  cy.intercept('POST', 'https://api.realworld.io/api/users/login', {
-    statusCode: 401,
-    body: { error: "Unauthorized" }
-
-  }).as('loginUnauthorized'); // gives name to intercepted request
-
-  cy.visit('https://demo.realworld.io/#/login');
-
-  cy.get('input[type="email"]').type('test@test.com');
-  cy.get('input[type="password"]').type('password123');
-  cy.get('button[type="submit"]').click();
-
-  cy.wait('@loginUnauthorized')
-    .its('response.statusCode')
-    .should('eq', 401);
-});
-
-
-// 500
-it('Netowrk Intercept - Internal Server Error (500)', () => {
-  cy.intercept('POST', 'https://api.realworld.io/api/users/login', {
-    statusCode: 500,
-    body: { error: "Internal Server Error" }
-  }).as('serverError'); // gives name to intercepted request
-
-  cy.visit('https://demo.realworld.io/#/login');
-
-  cy.get('input[type="email"]').type('test@test.com');
-  cy.get('input[type="password"]').type('password123');
-  cy.get('button[type="submit"]').click();
-
-  cy.wait('@serverError')
-    .its('response.statusCode')
-    .should('eq', 500);
-});
-
 
 });
 

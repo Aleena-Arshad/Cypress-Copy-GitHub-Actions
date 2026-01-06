@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
   # Scheduled run at 1:58 PM Pakistan time
   schedule:
-    - cron: '58 8 * * *'
+    - cron: '30 13 * * *'
 
 jobs:
   cypress-run:

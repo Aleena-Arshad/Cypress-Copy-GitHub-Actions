@@ -1,5 +1,3 @@
-# With HTML Reporting
-
 # With HTML Reporting and Scheduled Run
 name: Cypress Tests
 
@@ -10,11 +8,11 @@ on:
       - main
   # Run on pull request events
   pull_request:
-  # Manual trigger
+  # Manual trigger (Displayed in Actions Tab)
   workflow_dispatch:
-  # Scheduled run at 1:58 PM Pakistan time
+  # Scheduled run at PM Pakistan time
   schedule:
-    - cron: '58 8 * * *'
+    - cron: '24 13 * * *'
 
 jobs:
   cypress-run:

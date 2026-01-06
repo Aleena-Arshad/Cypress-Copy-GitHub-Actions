@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
   # Scheduled run at PM Pakistan time
   schedule:
-    - cron: '24 13 * * *'
+    - cron: '27 13 * * *'
 
 jobs:
   cypress-run:

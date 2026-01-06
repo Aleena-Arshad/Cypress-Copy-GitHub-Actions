@@ -1,10 +1,17 @@
 # With HTML Reporting
 
+# With HTML Reporting and Scheduled Run
+
 name: Cypress Tests
 
 on:
   push:
   workflow_dispatch:
+  schedule:
+    # Runs every day at 1:00 PM UTC
+    - cron: '0 13 * * *'
+    # Example: To run every Monday at 1:00 PM UTC
+    # - cron: '0 13 * * 1'
 
 jobs:
   cypress-run:
@@ -13,6 +20,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch full history to allow pull/fetch
+
+      - name: Pull Latest Changes
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git fetch origin
+          git reset --hard origin/${{ github.ref_name }}
 
       - name: Install Dependencies
         run: npm ci
@@ -36,6 +52,7 @@ jobs:
             cypress/screenshots
             cypress/videos
             cypress/reports
+
 
 
 # without mochawsome reporter correct code

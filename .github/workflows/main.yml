@@ -6,12 +6,11 @@ name: Cypress Tests
 
 on:
   push:
+  pull_request:
   workflow_dispatch:
   schedule:
-    # Runs every day at 1:00 PM UTC
-    - cron: '0 8 * * *'
-    # Example: To run every Monday at 1:00 PM UTC
-    # - cron: '0 13 * * 1'
+    # Runs every day at 1:05 PM Pakistan time
+    - cron: '58 8 * * *'
 
 jobs:
   cypress-run:
@@ -27,6 +26,7 @@ jobs:
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
+          # Pull latest changes for current branch
           git fetch origin
           git reset --hard origin/${{ github.ref_name }}
 
@@ -52,6 +52,7 @@ jobs:
             cypress/screenshots
             cypress/videos
             cypress/reports
+
 
 
 

@@ -1,15 +1,19 @@
 # With HTML Reporting
 
 # With HTML Reporting and Scheduled Run
-
 name: Cypress Tests
 
 on:
+  # Run on push only for main branch
   push:
+    branches:
+      - main
+  # Run on pull request events
   pull_request:
+  # Manual trigger
   workflow_dispatch:
+  # Scheduled run at 1:58 PM Pakistan time
   schedule:
-    # Runs every day at 1:05 PM Pakistan time
     - cron: '58 8 * * *'
 
 jobs:
@@ -26,9 +30,16 @@ jobs:
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "github-actions@github.com"
-          # Pull latest changes for current branch
-          git fetch origin
-          git reset --hard origin/${{ github.ref_name }}
+
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo "Fetching PR head branch"
+            git fetch origin +refs/pull/${{ github.event.pull_request.number }}/head:pr-${{ github.event.pull_request.number }}
+            git checkout pr-${{ github.event.pull_request.number }}
+          else
+            echo "Fetching current branch"
+            git fetch origin
+            git reset --hard origin/${{ github.ref_name }}
+          fi
 
       - name: Install Dependencies
         run: npm ci
@@ -54,8 +65,7 @@ jobs:
             cypress/reports
 
 
-
-
+# test 234ew
 # without mochawsome reporter correct code
 # name: Cypress Tests
 

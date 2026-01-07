@@ -45,14 +45,14 @@ jobs:
         run: npm ci
 
       - name: Create reports folder
-        run: mkdir -p cypress/reports/.jsons
+        run: mkdir -p cypress/reports/json
 
       - name: Run Cypress Tests
         run: |
           npx cypress run \
             --browser chrome \
             --reporter cypress-mochawesome-reporter \
-            --reporter-options reportDir=cypress/reports/.jsons,json=true,html=true,overwrite=true
+            --reporter-options reportDir=cypress/reports,json=true,html=true,overwrite=true
         continue-on-error: true
 
       - name: Upload Cypress Artifacts
@@ -63,6 +63,7 @@ jobs:
             cypress/screenshots
             cypress/videos
             cypress/reports
+
 
 
 

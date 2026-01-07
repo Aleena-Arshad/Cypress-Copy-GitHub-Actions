@@ -36,3 +36,6 @@ describe('MyTestSuite', ()=>{
         cy.log("*** Listing Products ***");
     })
 })
+
+
+// test for scheduled run

@@ -45,7 +45,7 @@ jobs:
         run: npm ci
 
       - name: Create reports folder
-        run: mkdir -p cypress/reports/json
+        run: mkdir -p cypress/reports
 
       - name: Run Cypress Tests
         run: |
@@ -63,7 +63,6 @@ jobs:
             cypress/screenshots
             cypress/videos
             cypress/reports
-
 
 
 

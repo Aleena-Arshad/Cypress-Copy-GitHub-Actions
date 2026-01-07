@@ -47,7 +47,7 @@ jobs:
       - name: Create reports folders
         run: |
           mkdir -p cypress/reports
-          mkdir -p cypress/reports/json   # ✅ separate folder for JSON
+          mkdir -p cypress/reports/json   # ✅ dedicated folder for JSON
 
       - name: Run Cypress Tests
         run: |
@@ -65,6 +65,7 @@ jobs:
             cypress/screenshots
             cypress/videos
             cypress/reports
+
 
 
 

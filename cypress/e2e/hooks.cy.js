@@ -24,18 +24,16 @@ describe('MyTestSuite', ()=>{
     it('Search', ()=>{
         cy.log("*** Searching ***");
     })
-
-
     
     it('Advanced Search', ()=>{
         cy.log("*** Advanced Searching ***");
     })
-
 
     it('Listing Products', ()=>{
         cy.log("*** Listing Products ***");
     })
 })
 
+// test for scheduled run, push 22 jan changes
 
-// test for scheduled run
+// 22 Jan Test

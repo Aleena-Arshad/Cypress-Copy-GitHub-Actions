@@ -12,7 +12,7 @@ on:
   pull_request:
   # Manual trigger
   workflow_dispatch:
-  # Scheduled run at 1:58 PM Pakistan time
+  # Scheduled run 
   schedule:
     - cron: '0 14 * * *'
 
@@ -67,7 +67,7 @@ jobs:
 
 
 
-# test 234ew
+# test 22 Jan, 2026
 # without mochawsome reporter correct code
 # name: Cypress Tests
 

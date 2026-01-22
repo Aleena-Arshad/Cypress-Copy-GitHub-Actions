@@ -63,7 +63,7 @@ jobs:
             cypress/reports
 
 
-# test 234 schedule run test
+# test schedule run test
 # without mochawsome reporter correct code
 # name: Cypress Tests
 
